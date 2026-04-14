@@ -1,13 +1,13 @@
-from sqlmodel import select
+from sqlmodel import select, Session
 
 from src.domain.entities.category_model import Categories
 from src.adapters.category_db_gateway import ICategoryGateway
 from src.dto.category_dto import ICategoryUpdateDTO, ICategoryCreateDTO
-from dependencies import DbSessionDep
+
 
 
 class PgCategoryRepository(ICategoryGateway):
-    def __init__(self, db_session: DbSessionDep):
+    def __init__(self, db_session: Session):
         self.db_session = db_session
 
     def get_category(self):
