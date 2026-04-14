@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
+from src.dto.category_dto import ICategoryCreateDTO, ICategoryUpdateDTO
 
 class ICategoryGateway(ABC):
     @abstractmethod
-    def create_category(self, description: str):
+    def create_category(self, request: ICategoryCreateDTO):
         pass
 
     @abstractmethod
-    def update_category(self, id: str, description: str):
+    def update_category(self, id: str, request: ICategoryUpdateDTO):
         pass
 
     @abstractmethod
