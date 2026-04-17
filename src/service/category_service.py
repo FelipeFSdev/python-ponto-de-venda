@@ -13,10 +13,10 @@ class CategoryService(ICategoryUseCase):
         return self.db_gateway.get_by_id(id)
     
     def create_category(self, request: ICategoryCreateDTO):
-        return self.create_category(request)
+        return self.db_gateway.create_category(request)
     
     def update_category(self, id: str, request: ICategoryUpdateDTO):
-        return self.update_category(id, request)
+        return self.db_gateway.update_category(id, request)
     
     def delete_category(self, id: str):
-        return self.delete_category(id)
+        return self.db_gateway.delete_category(id)
