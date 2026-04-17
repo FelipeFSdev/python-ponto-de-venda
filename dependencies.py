@@ -10,6 +10,9 @@ from src.infra.repositories.pg_user_repo import PgUserRepository
 from src.service.user_service import UserService
 from src.adapters.pass_hasher_gateway import IPassHasherGateway
 from src.infra.cryptography.pass_hasher import PasswordHasher
+from src.adapters.jwt_token_gateway import IJwtTokenGateway
+from src.infra.jwt.jwt_manager import JwtManager
+from src.service.login_service import LoginService
 
 def get_session():
     with Session(engine) as session:
@@ -47,3 +50,19 @@ def get_user_service(
     return UserService(user_gateway, hasher_gateway)
 
 UserServiceDep = Annotated[UserService, Depends(get_user_service)]
+
+
+def get_jwt_gateway() -> IJwtTokenGateway:
+    return JwtManager()
+
+JwtGatewayDep = Annotated[IJwtTokenGateway, Depends(get_jwt_gateway)]
+
+
+def get_login_service(
+        gateway: UserGatewayDep,
+        jwt_manager: JwtGatewayDep,
+        hasher: HasherGatewayDep
+    ) -> LoginService:
+    return LoginService(gateway, jwt_manager, hasher)
+
+LoginServiceDep = Annotated[LoginService, Depends(get_login_service)]

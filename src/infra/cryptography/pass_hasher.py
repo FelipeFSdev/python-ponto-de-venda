@@ -7,7 +7,7 @@ load_dotenv()
 
 class PasswordHasher(IPassHasherGateway):
     def __init__(self):
-        self.encoder = os.getenv("HASH_ENCODER", "")
+        self.encoder = os.getenv("HASH_ENCODER", "utf-8")
 
     def hash_password(self, password: str) -> str:
         password_bytes = bytes(password, self.encoder)
@@ -20,7 +20,7 @@ class PasswordHasher(IPassHasherGateway):
         is_match = bcrypt.checkpw(password_bytes, hashed)
 
         if is_match is False:
-            raise
+            raise Exception("Invalid credentials.")
 
         return is_match
 
