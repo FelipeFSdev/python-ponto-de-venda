@@ -19,8 +19,5 @@ class PasswordHasher(IPassHasherGateway):
         password_bytes = bytes(password, self.encoder)
         is_match = bcrypt.checkpw(password_bytes, hashed)
 
-        if is_match is False:
-            raise Exception("Invalid credentials.")
-
         return is_match
 
