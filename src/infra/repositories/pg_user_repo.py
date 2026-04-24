@@ -21,3 +21,8 @@ class PgUserRepository(IUserGateway):
         user = self.db_session.exec(select(Users).where(Users.email == email)).first()
 
         return user
+    
+    def get_user_by_id(self, id: str):
+        user = self.db_session.get(Users, id)
+
+        return user

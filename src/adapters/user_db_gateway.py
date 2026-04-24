@@ -9,3 +9,7 @@ class IUserGateway(ABC):
     @abstractmethod
     def get_user_by_email(self, email: str) -> Users | None:
         pass
+
+    @abstractmethod
+    def get_user_by_id(self, id: str) -> Users | None:
+        pass

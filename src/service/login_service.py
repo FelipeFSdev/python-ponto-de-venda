@@ -31,6 +31,6 @@ class LoginService(ILoginUseCase):
         if verify_password is False:
             raise ValueError("Invalid credentials.")
         
-        token = self.token_manager.get_token(user.name, user.email)
+        token = self.token_manager.get_token(str(user.id), user.name, user.email)
         
         return token

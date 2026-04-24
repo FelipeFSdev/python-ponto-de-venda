@@ -14,3 +14,7 @@ class UserService(IUserUseCase):
         hashed_pass = self.hasher_gateway.hash_password(password)
 
         return self.db_gateway.create_user(name, email, hashed_pass)
+    
+    def get_user_by_id(self, id: str):
+
+        return self.db_gateway.get_user_by_id(id)

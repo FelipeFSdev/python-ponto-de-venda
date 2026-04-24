@@ -13,9 +13,10 @@ class JwtManager(IJwtTokenGateway):
         self.jwt_key = os.getenv("JWT_KEY", "")
         self.jwt_algorithm = os.getenv("JWT_ALGORITHM", "")
 
-    def get_token(self, name: str, email: str):
+    def get_token(self, id: str, name: str, email: str):
         payload = {
             "exp": time.time() + (30 * 60),
+            "id": id,
             "name": name,
             "email": email
         }
