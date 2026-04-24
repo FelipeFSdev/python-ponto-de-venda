@@ -1,6 +1,7 @@
 from sqlmodel import Session
 from typing import Annotated
 from fastapi import Depends
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from src.infra.database.session import engine
 from src.adapters.category_db_gateway import ICategoryGateway
 from src.service.category_service import CategoryService
@@ -66,3 +67,14 @@ def get_login_service(
     return LoginService(gateway, jwt_manager, hasher)
 
 LoginServiceDep = Annotated[LoginService, Depends(get_login_service)]
+
+
+def get_current_user(
+        jwt_manager: JwtGatewayDep,
+        token: Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())]
+    ):
+            
+    return jwt_manager.decode_token(token.credentials)
+
+CurrentUserDep = Annotated[dict, Depends(get_current_user)]
+
