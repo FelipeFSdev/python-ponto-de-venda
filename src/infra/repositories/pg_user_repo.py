@@ -6,11 +6,11 @@ class PgUserRepository(IUserGateway):
     def __init__(self, db_session: Session):
         self.db_session = db_session
 
-    def create_user(self, name: str, email: str, password: str):
+    def create_user(self, create_data: dict):
         new_user = Users(
-            name = name,
-            email = email,
-            password = password
+            name = create_data["name"],
+            email = create_data["email"],
+            password = create_data["password"]
         )
 
         self.db_session.add(new_user)
@@ -26,3 +26,14 @@ class PgUserRepository(IUserGateway):
         user = self.db_session.get(Users, id)
 
         return user
+    
+    def update_user(self, id: str, update_data: dict):
+        user = self.get_user_by_id(id)
+        if user is None:
+            raise
+
+        user.sqlmodel_update(update_data)
+
+        self.db_session.add(user)
+        self.db_session.commit()
+        self.db_session.refresh(user)

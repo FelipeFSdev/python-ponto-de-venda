@@ -8,3 +8,8 @@ class IUserCreateDTO(BaseModel):
 class IUserDetailDTO(BaseModel):
     name: str
     email: EmailStr
+
+class IUserUpdateDTO(BaseModel):
+    name: str | None = None
+    email: EmailStr | None = None
+    password: str | None = None
