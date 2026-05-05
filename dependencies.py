@@ -14,6 +14,9 @@ from src.infra.cryptography.pass_hasher import PasswordHasher
 from src.adapters.jwt_token_gateway import IJwtTokenGateway
 from src.infra.jwt.jwt_manager import JwtManager
 from src.service.login_service import LoginService
+from src.infra.repositories.pg_product_repo import PgProductRepository
+from src.adapters.product_db_gateway import IProductGateway
+from src.service.product_service import ProductService
 
 def get_session():
     with Session(engine) as session:
@@ -37,6 +40,20 @@ def get_category_service(gateway: CategoryGatewayDep) -> CategoryService:
     return CategoryService(gateway)
 
 CategoryServiceDep = Annotated[CategoryService, Depends(get_category_gateway)]
+
+
+def get_product_gateway(session: DbSessionDep) -> IProductGateway:
+    return PgProductRepository(session)
+
+ProductGatewayDep = Annotated[IProductGateway, Depends(get_product_gateway)]
+
+def get_product_service(
+        product_gateway: ProductGatewayDep,
+        category_gateway: CategoryGatewayDep
+        ) -> ProductService:
+    return ProductService(product_gateway, category_gateway)
+
+ProductServiceDep = Annotated[ProductService, Depends(get_product_service)]
 
 
 def get_user_gateway(session: DbSessionDep) -> IUserGateway:
