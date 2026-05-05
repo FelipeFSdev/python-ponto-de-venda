@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from src.domain.entities.category_model import Categories
 from src.dto.category_dto import ICategoryCreateDTO, ICategoryUpdateDTO
 
 class ICategoryGateway(ABC):
@@ -16,6 +17,10 @@ class ICategoryGateway(ABC):
 
     @abstractmethod
     def get_by_id(self, id: str):
+        pass
+
+    @abstractmethod
+    def get_by_name(self, name: str) -> Categories | None:
         pass
 
     @abstractmethod

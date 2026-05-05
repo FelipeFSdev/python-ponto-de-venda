@@ -18,6 +18,14 @@ class PgCategoryRepository(ICategoryGateway):
         category = self.db_session.get(Categories, id)
         return category
     
+    def get_by_name(self, name:str):
+        category = self.db_session.exec(
+            select(Categories)
+            .where(Categories.description == name)
+        ).one_or_none()
+
+        return category
+    
     def create_category(self, request: ICategoryCreateDTO):
         new_category = Categories(
             description=request.description
